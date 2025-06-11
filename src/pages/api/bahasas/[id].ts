@@ -2,6 +2,7 @@ import { runCors } from "@/lib/cors";
 import { supabase } from "@/lib/supabase";
 import { Bahasa } from "@/types/bahasa";
 import { NextApiRequest, NextApiResponse } from "next";
+import slugify from "slugify";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -31,13 +32,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === "PUT") {
         const { nama } = req.body as Bahasa;
+        const provinsis_bahasas = req.body.provinsis_bahasas as number[] | undefined;
+
+        const slug = slugify(nama, {
+            lower: true
+        })
 
         const { data, error } = await supabase
             .from("bahasa")
-            .update({ nama })
-            .eq('slug', id)
+            .update({ nama, slug })
+            .eq('id', id)
             .select()
             .single();
+
+        if (provinsis_bahasas && provinsis_bahasas.length > 0) {
+            const provinsiInsert = provinsis_bahasas.map((provinsiId: number) => ({
+                id_bahasa: data.id,
+                id_provinsi: provinsiId
+            }));
+
+            const { error: provinsiError } = await supabase.from("provinsis_bahasas")
+                .upsert(provinsiInsert);
+
+            if (provinsiError) {
+                return res.status(500).json({ error: provinsiError.message });
+            }
+        }
 
         if (error) {
             return res.status(500).json({ error: error.message });

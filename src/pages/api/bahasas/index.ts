@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 id_provinsi: provinsiId
             }));
 
-            const { error: provinsiError } = await supabase.from("provinsi_bahasa")
+            const { error: provinsiError } = await supabase.from("provinsis_bahasas")
                 .insert(provinsiInsert);
 
             if (provinsiError) {
