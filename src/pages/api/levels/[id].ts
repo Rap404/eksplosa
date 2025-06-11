@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
     if (req.method === "GET") {
-        const { data, error } = await supabase.from("levels")
+        const { data, error } = await supabase.from("level")
             .select('*, soal(*)')
             .eq('slug', id)
             .single();
@@ -50,7 +50,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === "DELETE") {
         const { error } = await supabase
-            .from("levels")
+            .from("level")
             .delete()
             .eq('slug', id);
 
