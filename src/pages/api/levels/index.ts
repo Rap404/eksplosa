@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === "GET") {
-        const { data, error } = await supabase.from("levels")
+        const { data, error } = await supabase.from("level")
             .select('*, soal(*)')
             .order('id', { ascending: true });
         
@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const slug = slugify(level, {
             lower: true})
 
-        const { data, error } = await supabase.from("levels")
+        const { data, error } = await supabase.from("level")
             .insert({ level, slug, topik })
             .select()
             .single();
