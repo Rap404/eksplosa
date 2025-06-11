@@ -12,17 +12,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(200).end();
     }
 
-    if (req.method === "GET") {
-        const { data, error } = await supabase.from("soal")
-            .select('*')
-            .order('id', { ascending: true });
-        
-        if (error) {
-            return res.status(500).json({ error: `${error.message}` });
-        } else {
-            return res.status(200).json(data as Soal[]);
-        }
+    if (req.method === 'GET') {
+    const { level, bahasa } = req.query;
+
+    let query = supabase.from("soal").select("*, bahasa:id_bahasa(id, nama, slug)").order('id', { ascending: true });
+
+    if (level) {
+      query = query.eq('id_level', level);
     }
+
+    if (bahasa) {
+      query = query.eq('id_bahasa.slug', bahasa);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    return res.status(200).json(data as Soal[]);
+  }
 
     if (req.method === "POST") {
         const { pertanyaan, pilihan, tipe, jawaban, id_level, id_bahasa } = req.body as Soal;
