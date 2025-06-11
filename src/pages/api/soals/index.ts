@@ -25,11 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === "POST") {
-        const { pertayaan, pilihan, tipe, jawaban, id_level, id_bahasa } = req.body as Soal;
+        const { pertanyaan, pilihan, tipe, jawaban, id_level, id_bahasa } = req.body as Soal;
 
         try {
             const { data, error } = await supabase.from("soal")
-                .insert({ pertayaan, pilihan, tipe, jawaban, id_level, id_bahasa })
+                .insert({ pertanyaan, pilihan, tipe, jawaban, id_level, id_bahasa })
                 .select()
                 .single();
 

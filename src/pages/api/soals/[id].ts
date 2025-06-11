@@ -1,5 +1,6 @@
 import { runCors } from "@/lib/cors";
 import { supabase } from "@/lib/supabase";
+import { Soal } from "@/types/soal";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
@@ -27,11 +28,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === "PUT") {
-        const { pertayaan, pilihan, tipe, jawaban, id_level, id_bahasa } = req.body;
+        const { pertanyaan, pilihan, tipe, jawaban, id_level, id_bahasa } = req.body as Soal;
 
         const { data, error } = await supabase
             .from("soal")
-            .update({ pertayaan, pilihan, tipe, jawaban, id_level, id_bahasa })
+            .update({ pertanyaan, pilihan, tipe, jawaban, id_level, id_bahasa })
             .eq('id', id)
             .select()
             .single();

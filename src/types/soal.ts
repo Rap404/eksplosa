@@ -1,6 +1,6 @@
 export interface Soal {
     id: number
-    pertayaan: string
+    pertanyaan: string
     tipe: string
     pilihan: string[]
     jawaban: string
