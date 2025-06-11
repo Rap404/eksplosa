@@ -27,11 +27,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === "PUT") {
-        const { pertayaan, pilihan, jawaban, id_level, id_bahasa } = req.body;
+        const { pertayaan, pilihan, tipe, jawaban, id_level, id_bahasa } = req.body;
 
         const { data, error } = await supabase
             .from("soals")
-            .update({ pertayaan, pilihan, jawaban, id_level, id_bahasa })
+            .update({ pertayaan, pilihan, tipe, jawaban, id_level, id_bahasa })
             .eq('id', id)
             .select()
             .single();
