@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === "GET") {
-        const { data, error } = await supabase.from("soals")
+        const { data, error } = await supabase.from("soal")
             .select('*')
             .order('id', { ascending: true });
         
@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { pertayaan, pilihan, tipe, jawaban, id_level, id_bahasa } = req.body as Soal;
 
         try {
-            const { data, error } = await supabase.from("soals")
+            const { data, error } = await supabase.from("soal")
                 .insert({ pertayaan, pilihan, tipe, jawaban, id_level, id_bahasa })
                 .select()
                 .single();

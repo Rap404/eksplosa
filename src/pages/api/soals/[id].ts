@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === "GET") {
         const { data, error } = await supabase
-            .from("soals")
+            .from("soal")
             .select('*')
             .eq('id', id)
             .single();
@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { pertayaan, pilihan, tipe, jawaban, id_level, id_bahasa } = req.body;
 
         const { data, error } = await supabase
-            .from("soals")
+            .from("soal")
             .update({ pertayaan, pilihan, tipe, jawaban, id_level, id_bahasa })
             .eq('id', id)
             .select()
@@ -45,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === "DELETE") {
         const { error } = await supabase
-            .from("soals")
+            .from("soal")
             .delete()
             .eq('id', id);
 
